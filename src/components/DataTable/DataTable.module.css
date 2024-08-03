@@ -1,0 +1,24 @@
+.tableContainer {
+  background-color: #d4e0ed39;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(251, 241, 248, 0.1);
+}
+
+.product-image {
+  border-radius: 4px;
+}
+
+.colorsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.colorItem {
+  padding: 4px 0;
+}
+
+.pagination {
+  margin-top: 16px;
+}
