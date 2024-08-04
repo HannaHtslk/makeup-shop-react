@@ -4,21 +4,26 @@ import Filters from './components/Filters/Filters';
 import DataTable from './components/DataTable/DataTable';
 import './App.css';
 import { fetchData } from './services/api';
+import Loader from './components/Loader/Loader';
 
 const App = () => {
   const [groupBy, setGroupBy] = useState(null);
   const [brands, setBrands] = useState([]);
   const [tags, setTags] = useState([]);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
+      setLoading(true);
       try {
         const fetchedData = await fetchData();
 
         setData(fetchedData);
       } catch (error) {
         throw new Error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,7 +39,11 @@ const App = () => {
         brands={brands}
         tags={tags}
       />
-      <DataTable data={data} groupBy={groupBy} brands={brands} tags={tags} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <DataTable data={data} groupBy={groupBy} brands={brands} tags={tags} />
+      )}
     </Layout>
   );
 };
