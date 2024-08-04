@@ -1,0 +1,11 @@
+.selectDropdown {
+  width: 200px;
+  margin-right: 16px;
+}
+
+.dropdowns {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}

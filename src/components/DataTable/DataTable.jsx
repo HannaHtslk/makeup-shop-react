@@ -4,6 +4,7 @@ import s from './DataTable.module.css';
 
 const DataTable = ({ data, groupBy, brands, tags }) => {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+
   const filterData = () => {
     let result = [...data];
 
