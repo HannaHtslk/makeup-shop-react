@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Pagination } from 'antd';
+import { Table } from 'antd';
 import s from './DataTable.module.css';
-//example
-const sampleData = [
-  {
-    key: '1',
-    image: 'random',
-    name: 'Product 1',
-    category: 'Category 1',
-    brand: 'Brand 1',
-    price: '$10',
-    productType: 'Type 1',
-    colors: ['Red', 'Blue', 'Green'],
-  },
-];
 
-const DataTable = () => {
-  const [data, setData] = useState(sampleData);
-  const [expandable, setExpandable] = useState(false);
-  const [groupBy, setGroupBy] = useState(null);
-  const [brands, setBrands] = useState([]);
-  const [tags, setTags] = useState([]);
+const DataTable = ({ data, groupBy, brands, tags }) => {
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const filterData = () => {
+    let result = [...data];
 
-  useEffect(() => {
-    //data
-  }, [brands, tags, groupBy]);
+    if (brands.length > 0) {
+      result = result.filter(item => brands.includes(item.brand));
+    }
+
+    if (tags.length > 0) {
+      result = result.filter(item =>
+        tags.every(tag => item.tag_list.includes(tag))
+      );
+    }
+
+    if (groupBy) {
+      result = result.reduce((acc, item) => {
+        const key = item[groupBy];
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(item);
+        return acc;
+      }, {});
+    }
+
+    return Array.isArray(result) ? result : Object.values(result).flat();
+  };
 
   const columns = [
     {
       title: 'Image',
-      dataIndex: 'image',
-      render: text => <img src={text} alt="product" />,
+      dataIndex: 'image_link',
+      render: (text, record) => (
+        <img
+          src={record.api_featured_image}
+          alt={record.name}
+          style={{ width: 100, height: 100 }}
+        />
+      ),
     },
     {
       title: 'Name',
@@ -50,41 +59,43 @@ const DataTable = () => {
     },
     {
       title: 'Product Type',
-      dataIndex: 'productType',
+      dataIndex: 'product_type',
     },
   ];
 
-  const expandableColumns = [
-    {
-      title: 'Colors',
-      dataIndex: 'colors',
-      render: colors => (
-        <ul className={s.colorsList}>
-          {colors.map((color, index) => (
-            <li className={s.colorItem} key={index}>
-              {color}
-            </li>
-          ))}
-        </ul>
-      ),
-    },
-  ];
+  const expandedRowRender = record => (
+    <div className={s.expandableContent}>
+      <h4>Available Colors:</h4>
+      <ul className={s.colorsList}>
+        {record.product_colors.map((color, index) => (
+          <li className={s.colorItem} key={index}>
+            {color.colour_name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const handleExpand = (expanded, record) => {
+    setExpandedRowKeys(expanded ? [record.id] : []);
+  };
 
   return (
     <div className={s.tableContainer}>
       <Table
-        columns={columns.concat(expandable ? expandableColumns : [])}
+        columns={columns}
+        rowKey="id"
         expandable={{
-          expandedRowRender: record => <p>{record.colors.join(', ')}</p>,
+          expandedRowRender,
+          expandedRowKeys,
+          onExpand: handleExpand,
+          rowExpandable: record =>
+            record.product_colors && record.product_colors.length > 0,
         }}
-        dataSource={data}
+        dataSource={filterData()}
         pagination={{
           pageSize: 10,
           className: 'pagination',
-
-          onChange: page => {
-            // pag.
-          },
         }}
       />
     </div>
