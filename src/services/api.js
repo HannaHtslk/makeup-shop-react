@@ -3,7 +3,7 @@ import axios from 'axios';
 export const fetchData = async filters => {
   try {
     const response = await axios.get(
-      'http://makeup-api.herokuapp.com/api/v1/products.json',
+      'https://makeup-api.herokuapp.com/api/v1/products.json',
       {
         params: filters,
       }
