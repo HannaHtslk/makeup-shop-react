@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import s from './Selects.module.css';
 
 const Selects = ({ allBrands, allTags, brands, tags, setBrands, setTags }) => {
+  console.log(brands);
   return (
     <div className={s.dropdowns}>
       <Select

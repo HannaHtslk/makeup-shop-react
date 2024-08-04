@@ -9,16 +9,3 @@
   border-radius: 4px;
 }
 
-.colorsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.colorItem {
-  padding: 4px 0;
-}
-
-.pagination {
-  margin-top: 16px;
-}
