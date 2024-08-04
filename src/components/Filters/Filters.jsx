@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import s from './Filters.module.css';
-import { fetchData } from '../../services/api';
+
 import Switches from '../Switches/Switches';
 import Selects from '../Selects/Selects';
+import fetchData from '../../services/api';
 
 const Filters = ({ setGroupBy, setBrands, setTags, brands, tags }) => {
   const [allBrands, setAllBrands] = useState([]);

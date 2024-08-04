@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchData = async filters => {
+const fetchData = async filters => {
   try {
     const response = await axios.get(
       'https://makeup-api.herokuapp.com/api/v1/products.json',
@@ -14,3 +14,5 @@ export const fetchData = async filters => {
     throw new Error('Error fetching data from the API');
   }
 };
+
+export default fetchData;

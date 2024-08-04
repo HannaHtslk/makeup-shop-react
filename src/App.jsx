@@ -3,8 +3,8 @@ import { Layout } from 'antd';
 import Filters from './components/Filters/Filters';
 import DataTable from './components/DataTable/DataTable';
 import './App.css';
-import { fetchData } from './services/api';
 import Loader from './components/Loader/Loader';
+import fetchData from './services/api';
 
 const App = () => {
   const [groupBy, setGroupBy] = useState(null);
